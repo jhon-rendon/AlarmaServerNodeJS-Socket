@@ -1,0 +1,349 @@
+#menu ul{
+	margin:0;
+	padding:0;
+	list-style-type:none;
+}
+#menu ul li{
+	display:block;
+	margin:0;
+}
+
+#menu ul li a{
+	display:block;
+	font-family:calibri;
+	font-size:16px;
+	color:#3d3d3d;
+	text-decoration:none;
+	padding:7px 5px 7px 20px;
+	height:auto;
+	margin:0px;
+	border-bottom:1px solid #b4b3b3;
+	background-image:url(../images/a1.png);
+	background-repeat:no-repeat;
+	background-position:left;
+	text-align:left;
+}
+
+#menu ul li a:hover{
+	color:#127fb4;
+	background-color:#d9d9d9;
+}
+#menu ul li a.activo{
+	color:#127fb4;
+	background-position:left;
+	background-color:#d9d9d9;
+}
+#titulo-principal{
+	width:730px;
+	height:33px;
+	float:left;
+	background-image:url(../images/tit2.jpg);
+	background-repeat:repeat-x;
+	color:#FFF;
+	text-align:left;
+	font-family:calibri;
+	font-size:24px;
+	padding:4px 0px 0px 10px;
+}
+.msginfo
+{
+	color:#FFFFFF;
+	margin-left: 80px;
+	font-family: calibri;
+	margin-top: 5px;
+	text-align:center;
+}
+.title-datos{
+    text-align: center;
+    padding:5px;
+    font-weight: bold;
+    font-style: italic;
+    font-family:verdana;
+}
+.campos{
+	width:200px;
+	height:auto;
+	float:left;
+	border:1px solid #CCC;
+	padding:10px 8px;
+	color:#333;
+	font-family:calibri;
+	font-size:12px;
+	text-align:left;
+	margin-bottom:10px;
+	margin-left:10px;
+}
+
+.textarea{
+	width:200px;
+	height:auto;
+	float:left;
+	border:1px solid #CCC;
+	padding:10px 8px;
+	color:#333;
+	font-family:calibri;
+	font-size:12px;
+	text-align:left;
+	margin-bottom:10px;
+	margin-left:10px;
+	height:120px;
+}
+
+.ocultar{
+visibility:hidden;
+display:none;
+}
+
+.mostrar
+{
+	display: block;
+	border: 0px;
+}
+
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top;font-size:12px; }
+input.error {
+border:1px solid red;
+background:#ffa0a7;
+}
+
+.itemMenuActive{
+    font-weight: bold;
+    background-color:#36ABE0;
+}
+#arriba { position: fixed; bottom: 50px; right: 5px; margin-top:38px;z-index: 1000; }
+#arriba span { width: 36px; height: 36px; display: block; background: url(../images/arriba.png) no-repeat center center; }
+
+/*****Tooltip de jquery****/
+
+ .ui-tooltip, .arrow:after {
+background: black;
+border: 2px solid white;
+}
+.ui-tooltip {
+padding: 10px 20px;
+color: white;
+border-radius: 20px;
+font: bold 12px "Helvetica Neue", Sans-Serif;
+/*text-transform: uppercase;*/
+box-shadow: 0 0 7px black;
+}
+.arrow {
+width: 70px;
+height: 16px;
+overflow: hidden;
+position: absolute;
+left: 50%;
+margin-left: -35px;
+bottom: -16px;
+}
+.arrow.top {
+top: -16px;
+bottom: auto;
+}
+.arrow.left {
+left: 20%;
+}
+.arrow:after {
+content: "";
+position: absolute;
+left: 20px;
+top: -20px;
+width: 25px;
+height: 25px;
+box-shadow: 6px 5px 9px -9px black;
+-webkit-transform: rotate(45deg);
+-moz-transform: rotate(45deg);
+-ms-transform: rotate(45deg);
+-o-transform: rotate(45deg);
+tranform: rotate(45deg);
+}
+.arrow.top:after {
+bottom: -20px;
+top: auto;
+}
+
+/****Fin Tooltip Jquery*******/
+
+
+
+/******Css Bootstrap 2****************/
+
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+  display: inline-block;
+  height: 20px;
+  padding: 4px 6px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #555555;
+  height:35px;
+  vertical-align: middle;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+
+input,
+textarea,
+.uneditable-input {
+  width: 206px;
+}
+
+textarea {
+  height: auto;
+}
+
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+     -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+       -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+          transition: border linear 0.2s, box-shadow linear 0.2s;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+  border-color: rgba(82, 168, 236, 0.8);
+  outline: 0;
+  outline: thin dotted \9;
+  /* IE6-9 */
+
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin: 4px 0 0;
+  margin-top: 1px \9;
+  *margin-top: 0;
+  line-height: normal;
+}
+
+input[type="file"],
+input[type="image"],
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+input[type="radio"],
+input[type="checkbox"] {
+  width: auto;
+}
+
+select,
+input[type="file"] {
+  height: 30px;
+  /* In IE7, the height of the select element cannot be changed by height, only font-size */
+
+  *margin-top: 4px;
+  /* For IE7, add top margin to align select with labels */
+
+  line-height: 30px;
+}
+
+select {
+  width:220px;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+}
+
+select[multiple],
+select[size] {
+  height: auto;
+}
+
+select:focus,
+input[type="file"]:focus,
+input[type="radio"]:focus,
+input[type="checkbox"]:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+
+
+.btn-inverse {
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #363636;
+  *background-color: #222222;
+  background-image: -moz-linear-gradient(top, #444444, #222222);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#444444), to(#222222));
+  background-image: -webkit-linear-gradient(top, #444444, #222222);
+  background-image: -o-linear-gradient(top, #444444, #222222);
+  background-image: linear-gradient(to bottom, #444444, #222222);
+  background-repeat: repeat-x;
+  border-color: #222222 #222222 #000000;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff444444', endColorstr='#ff222222', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.btn-inverse:hover,
+.btn-inverse:focus,
+.btn-inverse:active,
+.btn-inverse.active,
+.btn-inverse.disabled,
+.btn-inverse[disabled] {
+  color: #ffffff;
+  background-color: #222222;
+  *background-color: #151515;
+}
+
+.btn-inverse:active,
+.btn-inverse.active {
+  background-color: #080808 \9;
+}
+
+/*****Fin css Boootrrap 2**********/
