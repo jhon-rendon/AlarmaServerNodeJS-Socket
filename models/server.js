@@ -157,22 +157,21 @@ class Server {
   enviarMensajeSpark( msg='Mensaje Desde NODEJS'){
 
     const axios    = require('axios');
-    const streamID = process.env. STREAMIDSPARK;
-    const url      = process.env. URLAPIOPENFIRE;
+    const streamID = process.env.STREAMIDSPARK;
+    const url      = process.env.URLAPIOPENFIRE;
     const token    = process.env.TOKENSPARK;
+    const dominio  = process.env.DOMINIOPENFIRE;
+
     process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
    
-    let destinos   = new Array();
-
-    destinos[0]  = "jhon.rendon@internet";
-    destinos[1]  = "andres.saa@internet";
-
     
+    let destinos   = process.env.DESTINOSPARK.split(';');
+
     
     for( let i=0; i < destinos.length; i ++ ){
       
-      console.log( "Enviando Mensaje por el spark a "+destinos[i]);
-      axios.post(url+streamID+"/messages/"+destinos[i],{
+      console.log( "Enviando Mensaje por el spark a "+destinos[i]+dominio);
+      axios.post(url+streamID+"/messages/"+destinos[i]+dominio,{
         body: msg   
       },{
           headers:{
@@ -219,7 +218,7 @@ class Server {
          //await bot.sendMessage('6230786982', "Mensaje: "+resp.msg + dataPDv.codigo + ' '+dataPDv.nombre);
          
         await obj.enviarMensajeTelegram('6230786982', "Mensaje: "+resp.msg + dataPDv.codigo + ' '+dataPDv.nombre);
-        await obj.enviarEmail(); 
+        await obj.enviarEmail( "Alerta "+dataPDv.nombre,resp.msg + dataPDv.codigo + ' '+dataPDv.nombre  ); 
         await obj.enviarMensajeSpark( resp.msg + dataPDv.codigo + ' '+dataPDv.nombre );
 
       
