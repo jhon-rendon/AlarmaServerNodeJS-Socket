@@ -154,6 +154,47 @@ class Server {
   }
 
   
+  enviarMensajeSpark( msg='Mensaje Desde NODEJS'){
+
+    const axios    = require('axios');
+    const streamID = process.env. STREAMIDSPARK;
+    const url      = process.env. URLAPIOPENFIRE;
+    const token    = process.env.TOKENSPARK;
+    process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+   
+    let destinos   = new Array();
+
+    destinos[0]  = "jhon.rendon@internet";
+    destinos[1]  = "andres.saa@internet";
+
+    
+    
+    for( let i=0; i < destinos.length; i ++ ){
+      
+      console.log( "Enviando Mensaje por el spark a "+destinos[i]);
+      axios.post(url+streamID+"/messages/"+destinos[i],{
+        body: msg   
+      },{
+          headers:{
+              'Authorization': token,
+              'Accept': 'application/json'
+          }
+      })
+      .then((res)=>{
+          console.log('RESP '+res);
+      })
+      .catch((error)=>{
+        console.log(error.response);
+      });
+
+
+    }
+   
+
+  }
+
+
+
   
   conexionSocket  () {
   
@@ -179,6 +220,7 @@ class Server {
          
         await obj.enviarMensajeTelegram('6230786982', "Mensaje: "+resp.msg + dataPDv.codigo + ' '+dataPDv.nombre);
         await obj.enviarEmail(); 
+        await obj.enviarMensajeSpark( resp.msg + dataPDv.codigo + ' '+dataPDv.nombre );
 
       
         
