@@ -54,10 +54,25 @@ const getPuntoVentaByMAC = async (mac = "") => {
 };
 
 const insertAlerta = async (mac, codigoPDV, nombrePDV, ip = null) => {
+
+  let dirMac = "";
+    //Si existen una coma en el string de la mac, quiere decir que vienen varias mac anidadas
+    if (mac.includes(",")) {
+      //Si existe una coma al final del string
+      if (mac.charAt(mac.length - 1) === ",") {
+        //Eliminar la ultima coma del string
+        dirMac = mac.substring(0, mac.length - 1);
+      } else {
+        dirMac = mac;
+      }
+    } else {
+      dirMac = "'" + mac + "'";
+    }
+
   try {
     /***Registrar la alerta en la base de datos */
     sql = `
-    INSERT INTO APPBOTONPANICO.ALERTA (FECHA, HORA,MAC,CODIGO_PDV,NOMBRE_PDV,IP) VALUES (SYSDATE,to_char(SYSDATE, 'HH24:MI:SS'),'${mac}','${codigoPDV}','${nombrePDV}','${ip}')
+    INSERT INTO APPBOTONPANICO.ALERTA (FECHA, HORA,MAC,CODIGO_PDV,NOMBRE_PDV,IP) VALUES (SYSDATE,to_char(SYSDATE, 'HH24:MI:SS'),${dirMac},'${codigoPDV}','${nombrePDV}','${ip}')
      `;
     result = await runQuery(sql, [], true);
   } catch (error) {

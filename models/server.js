@@ -167,26 +167,27 @@ class Server {
     
     let destinos   = process.env.DESTINOSPARK.split(';');
 
-    
-    for( let i=0; i < destinos.length; i ++ ){
-      
-      console.log( "Enviando Mensaje por el spark a "+destinos[i]+dominio);
-      axios.post(url+streamID+"/messages/"+destinos[i]+dominio,{
-        body: msg   
-      },{
-          headers:{
-              'Authorization': token,
-              'Accept': 'application/json'
-          }
-      })
-      .then((res)=>{
-          console.log('RESP '+res);
-      })
-      .catch((error)=>{
-        console.log(error.response);
-      });
+    if(  destinos.length > 0 ){
+      for( let i=0; i < destinos.length; i ++ ){
+        
+        console.log( "Enviando Mensaje por el spark a "+destinos[i]+dominio);
+        axios.post(url+streamID+"/messages/"+destinos[i]+dominio,{
+          body: msg   
+        },{
+            headers:{
+                'Authorization': token,
+                'Accept': 'application/json'
+            }
+        })
+        .then((res)=>{
+            console.log('RESP '+res);
+        })
+        .catch((error)=>{
+          console.log(error.response);
+        });
 
 
+      }
     }
    
 

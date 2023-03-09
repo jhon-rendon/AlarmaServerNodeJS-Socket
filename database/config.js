@@ -3,7 +3,7 @@ const oracledb = require('oracledb');
 
 
 try {
-    oracledb.initOracleClient({libDir: 'C:/oracle/instantclient_21_6/'});
+    oracledb.initOracleClient({libDir: '/opt/oracle/instantclient_19_8/'});
 } catch (error) {
   console.log(error);
   throw new Error('Error al iniciar el oracle instantclient');
