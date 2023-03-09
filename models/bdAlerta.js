@@ -20,7 +20,7 @@ const getPuntoVentaByMAC = async (mac = "") => {
     sql = `
       SELECT PUNTOVENTA,nombre
       FROM GAMBLE.mac_punto_venta@apuestas, GAMBLE.territorios@apuestas 
-      WHERE lower(DIRECCION_MAC_EQUIPO) in (${dirMac}) AND PUNTOVENTA = CODIGO
+      WHERE lower(DIRECCION_MAC_EQUIPO) in (${dirMac}) AND PUNTOVENTA = CODIGO AND ROWNUM < 2
        `;
     //console.log(sql);
     result = await runQuery(sql);
