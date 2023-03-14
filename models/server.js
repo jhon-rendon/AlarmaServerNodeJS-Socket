@@ -3,16 +3,17 @@ const { dbConnection } = require("../database/config");
 const growl = require("notify-send");
 const nodemailer = require("nodemailer");
 const express = require('express');
-//const cors    = require('cors');
+const cors    = require('cors');
 const TelegramBot = require('node-telegram-bot-api');
-const  { getPuntoVentaByMAC, insertAlerta }  = require("./bdAlerta");
+const  { getPuntoVentaByMAC, insertAlerta,getAlertas }  = require("./bdAlerta");
+
 
 
 class Server {
   constructor() {
 
     this.app  = express();
-    this.port = process.env.PUERTOSERVERSOCKET || 3000;
+    this.port = process.env.PUERTOSERVERSOCKET || 3161;
 
     this.server =  require("http").Server( this.app );
     this.listen();
@@ -25,14 +26,14 @@ class Server {
     this.conectionBD = this.conectarDB();
 
     //Middelwares
-    //this.middlewares();
+    this.middlewares();
 
     //Rutas de mi aplicación
     //this.routes();
 
     //Bot Telegram
     this.bot = new TelegramBot(process.env.TOKENTELEGRAM, { polling: true });
-       
+    
     
   }
 
@@ -54,12 +55,16 @@ class Server {
     this.app.use(express.json());
 
     // Directorio Público
-    this.app.use( express.static('public') );
+    this.app.use( express.static('public/') );
   }
 
   routes() {
-    /*his.app.use('/auth',require('../routes/auth'));*/
+    /*this.app.get('/',( req,res )=>{
+      res.sendFile(__dirname + '/index.html'); 
+    });*/
+
   }
+ 
 
   obtenerFechaCompleta() {
     let date = new Date();
@@ -71,8 +76,15 @@ class Server {
     return fechaCompleta;
   }
 
+  obtenerHora(){
+    let date = new Date();
+    let hora = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+    return hora;
+
+  }
+
   notificaciones(msg = "", title = "Alerta", time = 5000) {
-    growl.timeout(time).notify(title, "msg");
+    growl.timeout(time).notify(title, msg);
   }
 
   configSmtp() {
@@ -97,9 +109,9 @@ class Server {
       .sendMail({
         from: "Inversiondes del Pacifico", // sender address//,coordinador.aplicaciones@inverpacifico.com.co
         to: process.env.DESTINOSEMAIL, // list of receivers
-        subject: title + " " + this.obtenerFechaCompleta() + " ", // Subject line
+        subject: title + " " + this.obtenerFechaCompleta() + " "+ this.obtenerHora()+" ", // Subject line
         text: "texto plano del correo", // plain text body
-        html: "Cordial saludo, <br><br>  " + body,
+        html: " <h3> " + body+ "</h3>",
       })
       .then((info) => {
         console.log({ info });
@@ -154,7 +166,7 @@ class Server {
   }
 
   
-  enviarMensajeSpark( msg='Mensaje Desde NODEJS'){
+  enviarMensajeSpark( msg=''){
 
     const axios    = require('axios');
     const streamID = process.env.STREAMIDSPARK;
@@ -200,30 +212,99 @@ class Server {
   
    const obj = this;
 
+   
+
    console.log( 'Iniciando SOcket'); 
    this.io.on("connection", function (socket) {
-      console.log("Un cliente se ha conectado");
+
+   
+
+      console.log("Un cliente se ha conectado "+socket.id+" "+" "+obj.obtenerFechaCompleta()+" "+obj.obtenerHora());
    
       socket.on('alarma', async ( resp ) => {
         console.log(''+ resp.mac +' '+' '+ resp.ip+' '+resp.msg);
 
         let  dataPDv = await getPuntoVentaByMAC(  resp.mac );
+        let  mensajeResp ="";
+        let  title = "";
         if( dataPDv ){
-          console.log( dataPDv.codigo + ' '+dataPDv.nombre );
+          console.log( dataPDv.codigo + ' '+dataPDv.nombre + " "+obj.obtenerFechaCompleta()+" "+obj.obtenerHora());
           await insertAlerta( resp.mac, dataPDv.codigo, dataPDv.nombre, resp.ip);
+
+          mensajeResp = "ALERTA, se ha presionado el botón de pánico en el punto de venta "+dataPDv.codigo + ' - '+dataPDv.nombre;
+          title       = "ALERTA BOTÓN DE PÁNICO EN EL PUNTO DE VENTA "+dataPDv.codigo + ' - '+dataPDv.nombre;
+        }else{
+          mensajeResp = "ALERTA, se ha presionado el botón de pánico en el punto de venta con Dirección MAC "+resp.mac +( resp.ip )? " y Dirección IP "+ip:"" ;
+          title       = "ALERTA BOTÓN DE PÁNICO EN EL PUNTO DE VENTA "+resp.mac+" "+resp.mac +( resp.ip )? " -  IP "+ip:"";
         }
 
-        socket.broadcast.emit('mensajeAlarma', resp.msg + dataPDv.codigo + ' '+dataPDv.nombre);
-        
-        //Bot Telegram
-         //await bot.sendMessage('6230786982', "Mensaje: "+resp.msg + dataPDv.codigo + ' '+dataPDv.nombre);
-         
-        await obj.enviarMensajeTelegram('6230786982', "Mensaje: "+resp.msg + dataPDv.codigo + ' '+dataPDv.nombre);
-        await obj.enviarEmail( "Alerta "+dataPDv.nombre,resp.msg + dataPDv.codigo + ' '+dataPDv.nombre  ); 
-        await obj.enviarMensajeSpark( resp.msg + dataPDv.codigo + ' '+dataPDv.nombre );
+        //Mensaje via Sokcet a la aplicacion de monitreo
+        socket.broadcast.emit('mensajeAlarma', {
+          'hora':obj.obtenerHora(),
+           pdv:dataPDv.nombre,
+          'codigo':dataPDv.codigo,
+          fecha:obj.obtenerFechaCompleta()
+        }
+        );//Enviar mensaje por socket
 
-      
+        console.log(mensajeResp) ;
+       
+
+        try {
+          await obj.enviarEmail( title,mensajeResp ); 
+        } catch (error) {
+          console.log('Error al enviar email '+error);
+        }
+
+        try {
+          await obj.enviarMensajeSpark( mensajeResp );
+        } catch (error) {
+          console.log('Error Openfire '+error);
+        }
         
+
+        //Bot Telegram
+        try {
+          await obj.enviarMensajeTelegram( process.env.IDGROUPCHATELEGRAM, mensajeResp);
+        } catch (error) {
+           console.log('Error Telegram '+error);
+        }
+        
+
+   
+        
+      });//FIn evento sockt Alarma
+
+      socket.on('fecha-actual',()=>{
+        socket.emit('fecha-actual', obj.obtenerFechaCompleta());
+      });//Obtener Fecha Actual del Servidor
+
+      socket.on('alertas-hoy',async () =>{
+           let  fecha = obj.obtenerFechaCompleta();
+           let  dataHoy = await getAlertas(  fecha, fecha );
+           socket.emit('alertas-hoy', dataHoy);
+      });
+
+
+      socket.on('alertas-rango-fechas',async ( rangoFecha ) =>{
+        console.log('recibiendo evento alertas-rango-fechas '+rangoFecha.fechaInicial +" "+rangoFecha.fechaFinal);
+        let  data = await getAlertas(  rangoFecha.fechaInicial, rangoFecha.fechaFinal );
+        if( !data ){
+          data =  null;
+        }
+        socket.emit('alertas-rango-fechas', data );
+      });
+     
+
+
+      socket.on("disconnect",() => {
+        console.log("Cliente Desconectado "+socket.id+" "+" "+obj.obtenerFechaCompleta()+" "+obj.obtenerHora());
+        socket.disconnect();
+      });
+      
+      socket.on("forceDisconnect",() => {
+        console.log("Cliente Desconectado "+socket.id+" "+" "+obj.obtenerFechaCompleta()+" "+obj.obtenerHora());
+        socket.disconnect();
       });
     
     });

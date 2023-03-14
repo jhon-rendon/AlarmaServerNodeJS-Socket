@@ -83,7 +83,53 @@ const insertAlerta = async (mac, codigoPDV, nombrePDV, ip = null) => {
   }
 };
 
+
+
+
+
+const getAlertas = async (fechaInicial, fechaFinal ) => {
+
+
+  try {
+    
+    sql = `
+      SELECT ID,FECHA,HORA,MAC,CODIGO_PDV,NOMBRE_PDV,IP from APPBOTONPANICO.alerta
+      WHERE  TO_CHAR(FECHA, 'dd/mm/yyyy')  BETWEEN '${fechaInicial}' and '${fechaFinal}'
+      ORDER BY HORA
+       `;
+    result = await runQuery(sql);
+
+    console.log(
+      "Cantidad de registros consultados " + result.resultQuery.rows.length
+    );
+
+  
+    let info = [];
+    if (result.resultQuery.rows.length > 0) {
+      console.log("Listando los  Registros ");
+      result.resultQuery.rows.map((data) => {
+        info.push({
+           fecha:data[1],
+           hora:data[2],
+          'codigo':data[4],
+           pdv: data[5]
+        })
+      });
+    } else {
+      console.log(" La consulta no devolvio ningun registro");
+    }
+
+    return info;
+    
+  } catch (error) {
+    console.log("Se presenta error al consultar las alertas en la base de datos" + error);
+  }
+};
+
+
+
 module.exports = {
   getPuntoVentaByMAC,
   insertAlerta,
+  getAlertas
 };

@@ -1,0 +1,35 @@
+[33mcommit d4d6a49e70a46301ccae91c7c5645355450907ee[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: aplicaciones <aplicaciones@inverpacifico.com>
+Date:   Thu Mar 9 09:50:33 2023 -0500
+
+    Ajuste insert alerta bd
+
+[33mcommit 12172f8f0d784238f7bb997f6adf80382e2daf10[m
+Author: aplicaciones <aplicaciones@inverpacifico.com>
+Date:   Wed Mar 8 21:38:54 2023 -0500
+
+    Ajuste de la consulta por mac en BNET, limitar a un registro NUMROW <2
+
+[33mcommit 2efdbc91c910d285fb235c7b2ce8e3df4e3b5114[m
+Author: aplicaciones <aplicaciones@inverpacifico.com>
+Date:   Wed Mar 8 21:33:34 2023 -0500
+
+    Ajuste de la consulta por mac en BNET
+
+[33mcommit 498884228152e43deb565ce454768e73e2484f55[m
+Author: Jhon Rendon <jhon.rh90@gmail.com>
+Date:   Thu Mar 2 14:56:41 2023 -0500
+
+    Ajuste funcion envio notificacion spark
+
+[33mcommit f69ec0bf058f0d47fa4cd746ab31d0d41cb016bb[m
+Author: Jhon Rendon <jhon.rh90@gmail.com>
+Date:   Thu Mar 2 14:38:24 2023 -0500
+
+    Se agrega funcionalidad para envio de notificaciones por el spark
+
+[33mcommit 409ba5629a2f1f521cb59a7b926ee469932874bd[m
+Author: Jhon Rendon <jhon.rh90@gmail.com>
+Date:   Mon Feb 27 13:17:07 2023 -0500
+
+    Primera Version Servidor ( Aplicacion server para las alertas del boton de panico - Envio de correo, mensajes por telegram y alertas a las centrasles
