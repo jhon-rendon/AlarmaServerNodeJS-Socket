@@ -31,7 +31,7 @@
     
     console.log("Conectado al Socket ");
     //socket = io.connect("http://" +process.env.IPSERVERSOCKET +":" +process.env.PUERTOSERVERSOCKET,{ forceNew: true });//Conectar al Servidor de Socket
-    socket = io.connect("http://10.190.15.2:9758",{ forceNew: true });//Conectar al Servidor de Socket
+    socket = io.connect("http://localhost:9758",{ forceNew: true });//Conectar al Servidor de Socket
   }
 
   function socketFechaActual(){
